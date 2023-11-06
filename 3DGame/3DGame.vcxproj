@@ -147,17 +147,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ECS\Components\Physics.h" />
     <ClCompile Include="ExternalLibs\include\glm\detail\glm.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Input\KeyListener.cpp" />
     <ClCompile Include="Input\MouseListener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Scene\DefaultScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\camera.h" />
-    <ClInclude Include="ECS\Component.h" />
-    <ClInclude Include="ECS\GameObject.h" />
+    <ClInclude Include="ECS\Components\Controller.h" />
+    <ClInclude Include="ECS\ECS.h" />
     <ClInclude Include="ExternalLibs\include\glad\glad.h" />
     <ClInclude Include="ExternalLibs\include\GLFW\glfw3.h" />
     <ClInclude Include="ExternalLibs\include\GLFW\glfw3native.h" />
@@ -447,6 +449,7 @@
     <ClInclude Include="Input\KeyListener.h" />
     <ClInclude Include="Input\MouseListener.h" />
     <ClInclude Include="Mesh\mesh.h" />
+    <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="shader.h" />

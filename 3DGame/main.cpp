@@ -8,6 +8,9 @@
 static Renderer* renderer;
 static Scene* currentScene;
 
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
 int main()
 {
 	renderer = new Renderer();
@@ -20,9 +23,17 @@ int main()
 
 	currentScene->LoadScene();
 
+	currentScene->StartScene();
+
 	while (!renderer->ShouldCloseWindow())
 	{
+		float currentFrame = static_cast<float>(glfwGetTime());
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		currentScene->ProcessInput();
+
+		currentScene->UpdateScene(deltaTime / 1000.0f);
 
 		renderer->ClearRender(0.0f, 0.0f, 0.0f);
 

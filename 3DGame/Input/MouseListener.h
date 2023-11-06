@@ -80,6 +80,14 @@ public:
 		return false;
 	}
 
+	static void setScreenSize(unsigned int screenWidth, unsigned int screenHeight)
+	{
+		getInstance()->xPos = screenWidth / 2.0f;
+		getInstance()->yPos = screenHeight / 2.0f;
+		getInstance()->lastX = screenWidth / 2.0f;
+		getInstance()->lastY = screenHeight / 2.0f;
+	}
+
 private:
 	static MouseListener* instance;
 	float scrollX, scrollY;

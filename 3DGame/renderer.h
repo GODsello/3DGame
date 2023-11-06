@@ -8,8 +8,8 @@
 #include "Input/KeyListener.h"
 #include "Input/MouseListener.h"
 
-static int SCR_WIDTH = 800;
-static int SCR_HEIGHT = 600;
+static int SCR_WIDTH = 1920;
+static int SCR_HEIGHT = 1080;
 
 class Renderer
 {
@@ -71,6 +71,8 @@ public:
 
 		//Enable Depth test
 		glEnable(GL_DEPTH_TEST);
+
+		MouseListener::setScreenSize(SCR_WIDTH, SCR_HEIGHT);
 
 		return true;
 	}
