@@ -39,6 +39,9 @@
     <ClCompile Include="ECS\Components\Physics.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\Collision\CollisionSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stb_image.h">
@@ -933,6 +936,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Collision\CollisionSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Systems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Components\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

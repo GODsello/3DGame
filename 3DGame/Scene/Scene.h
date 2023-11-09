@@ -24,6 +24,11 @@ public:
 		this->mainShader = nullptr;
 	}
 
+	~Scene()
+	{
+		DownloadScene();
+	}
+
 	virtual void LoadScene() = 0;
 
 	void StartScene()
@@ -61,7 +66,9 @@ public:
 		mainShader->use();
 
 		// view/projection transformations
-		glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), 800.0f / 600.0f, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), 
+			static_cast<float>(Renderer::SCR_WIDTH) / static_cast<float>(Renderer::SCR_HEIGHT),
+			0.1f, 100.0f);
 		glm::mat4 view = mainCamera->GetViewMatrix();
 		mainShader->setMat4("projection", projection);
 		mainShader->setMat4("view", view);
@@ -78,11 +85,11 @@ public:
 		{
 			glfwSetWindowShouldClose(renderer->window, true);
 		}
-
-		//printf("camera %.6f %.6f %.6f\n", mainCamera->Front.x, mainCamera->Front.y, mainCamera->Front.z);
 	}
 
 	Camera* GetMainCamera() { return mainCamera; }
+
+	std::vector<GameObject*>* GetSceneGameObjects() { return &gameObjects; }
 
 protected:
 	unsigned int id;

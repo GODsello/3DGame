@@ -4,6 +4,7 @@
 class KeyListener
 {
 public:
+
 	static KeyListener* getInstance()
 	{
 		if (instance == nullptr)

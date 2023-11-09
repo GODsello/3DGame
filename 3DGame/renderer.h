@@ -8,13 +8,12 @@
 #include "Input/KeyListener.h"
 #include "Input/MouseListener.h"
 
-static int SCR_WIDTH = 1920;
-static int SCR_HEIGHT = 1080;
-
 class Renderer
 {
 public:
 	GLFWwindow* window;
+	static const int SCR_WIDTH = 1920;
+	static const int SCR_HEIGHT = 1080;
 
 	Renderer() 
 	{
@@ -104,6 +103,9 @@ public:
 		glfwDestroyWindow(window);
 		window = nullptr;
 		glfwTerminate();
+
+		delete MouseListener::getInstance();
+		delete KeyListener::getInstance();
 	}
 
 };

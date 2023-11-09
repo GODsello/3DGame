@@ -155,9 +155,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Scene\DefaultScene.h" />
+    <ClCompile Include="Systems\Collision\CollisionSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\camera.h" />
+    <ClInclude Include="ECS\Components\Collider.h" />
+    <ClInclude Include="ECS\Components\Components.h" />
     <ClInclude Include="ECS\Components\Controller.h" />
     <ClInclude Include="ECS\ECS.h" />
     <ClInclude Include="ExternalLibs\include\glad\glad.h" />
@@ -454,6 +457,8 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Systems\Collision\CollisionSystem.h" />
+    <ClInclude Include="Systems\Systems.h" />
     <ClInclude Include="utils\utils.h" />
   </ItemGroup>
   <ItemGroup>

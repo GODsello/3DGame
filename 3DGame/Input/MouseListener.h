@@ -6,6 +6,7 @@
 class MouseListener
 {
 public:
+
 	static MouseListener* getInstance()
 	{
 		if (instance == nullptr)
@@ -18,8 +19,6 @@ public:
 
 	static void mousePosCallback(GLFWwindow* window, double x, double y)
 	{
-		//getInstance()->lastX = getInstance()->xPos;
-		//getInstance()->lastY = getInstance()->yPos;
 		getInstance()->xPos = static_cast<float>(x);
 		getInstance()->yPos = static_cast<float>(y);		
 	}

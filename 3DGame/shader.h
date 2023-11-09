@@ -71,6 +71,12 @@ public:
         glDeleteShader(fragment);
 
     }
+
+    ~Shader()
+    {
+        uniformLocations.clear();
+    }
+
     // activate the shader
     // ------------------------------------------------------------------------
     void use() const

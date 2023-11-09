@@ -10,12 +10,14 @@
 
 #include "../Mesh/mesh.h"
 #include "../shader.h"
+#include "../utils/utils.h"
 
 struct Transform
 {
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
+	glm::vec3 color;
 };
 
 class GameObject;
@@ -47,6 +49,7 @@ public:
 		this->transform.position = glm::vec3(0.0f);
 		this->transform.rotation = glm::vec3(0.0f);
 		this->transform.scale = glm::vec3(1.0f);
+		this->transform.color = glm::vec3(1.0f);
 	}
 
 	~GameObject()
@@ -56,6 +59,11 @@ public:
 			delete c->second;
 		}
 		components.clear();
+
+		for (Mesh* m : meshes)
+		{
+			if(m && m->vertices.size() > 0) delete m;
+		}
 		meshes.clear();
 	}
 
@@ -88,7 +96,9 @@ public:
 
 	Transform* GetTransform() { return &transform; }
 
-	void Start()
+	std::string GetName() { return name; }
+
+	virtual void Start()
 	{
 		for (auto c = components.begin(); c != components.end(); c++)
 		{
@@ -114,11 +124,15 @@ public:
 		model = glm::scale(model, transform.scale);
 		shader->setMat4("model", model);
 
+		shader->setVec3("gameObjectColor", transform.color);
+
 		for (Mesh* m : meshes)
 		{
 			m->Draw();
 		}
 	}
+
+	virtual void OnCollision(GameObject* collision) {};
 
 private:
 	std::string name;

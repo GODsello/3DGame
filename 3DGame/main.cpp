@@ -2,21 +2,26 @@
 #include <GLFW/glfw3.h>
 
 #include "renderer.h"
-#include "utils/utils.h"
 #include "Scene/DefaultScene.h"
+
+#include "Systems/Systems.h"
+
+constexpr int UPDATES_PER_SECOND = 144;
+constexpr double UPDATE_DELAY = 1.0 / UPDATES_PER_SECOND;
 
 static Renderer* renderer;
 static Scene* currentScene;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+float renderTime = 0.0f;
 
 int main()
 {
 	renderer = new Renderer();
 	currentScene = new DefaultScene(0, renderer);
 
-	if (!renderer->InitRenderer(SCR_WIDTH, SCR_HEIGHT, "3DGame"))
+	if (!renderer->InitRenderer(Renderer::SCR_WIDTH, Renderer::SCR_HEIGHT, "3DGame"))
 	{
 		return -1;
 	}
@@ -28,22 +33,32 @@ int main()
 	while (!renderer->ShouldCloseWindow())
 	{
 		float currentFrame = static_cast<float>(glfwGetTime());
-		deltaTime = currentFrame - lastFrame;
+		deltaTime += currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		currentScene->ProcessInput();
+		if (deltaTime > UPDATE_DELAY)
+		{
+			CollisionSystem::CheckAllCollisions(*currentScene->GetSceneGameObjects());
 
-		currentScene->UpdateScene(deltaTime / 1000.0f);
+			currentScene->ProcessInput();
 
-		renderer->ClearRender(0.0f, 0.0f, 0.0f);
 
-		currentScene->RenderScene();
+			currentScene->UpdateScene(deltaTime);
 
-		renderer->SwapBuffers();
+			renderer->ClearRender(0.0f, 0.0f, 0.0f);
+
+			currentScene->RenderScene();
+			renderTime -= UPDATE_DELAY;
+
+			renderer->SwapBuffers();
+
+			deltaTime = 0.0f;
+		}
 	}
 
-	currentScene->DownloadScene();
-	renderer->DestroyRenderer();
 
+	delete currentScene;
+	delete renderer;
+	
 	return 0;
 }
