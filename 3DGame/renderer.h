@@ -11,13 +11,13 @@
 class Renderer
 {
 public:
-	GLFWwindow* window;
+	GLFWwindow* p_window;
 	static const int SCR_WIDTH = 1920;
 	static const int SCR_HEIGHT = 1080;
 
 	Renderer() 
 	{
-		window = nullptr;
+		p_window = nullptr;
 	}
 
 	~Renderer() { DestroyRenderer(); }
@@ -43,8 +43,8 @@ public:
 #endif
 
 		//Window creation
-		window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
-		if (window == NULL)
+		p_window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
+		if (p_window == NULL)
 		{
 			printf("Failed to create window\n");
 			glfwTerminate();
@@ -52,14 +52,15 @@ public:
 		}
 
 		//Init callbacks
-		glfwSetKeyCallback(window, KeyListener::keyCallback);
-		glfwSetCursorPosCallback(window, MouseListener::mousePosCallback);
-		glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
-		glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
+		glfwSetKeyCallback(p_window, KeyListener::KeyCallback);
+		glfwSetCursorPosCallback(p_window, MouseListener::MousePosCallback);
+		glfwSetScrollCallback(p_window, MouseListener::MouseScrollCallback);
+		glfwSetMouseButtonCallback(p_window, MouseListener::MouseButtonCallback);
+		//glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(p_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(p_window);
 
 		//Load GLAD functions
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -71,20 +72,20 @@ public:
 		//Enable Depth test
 		glEnable(GL_DEPTH_TEST);
 
-		MouseListener::setScreenSize(SCR_WIDTH, SCR_HEIGHT);
+		MouseListener::SetScreenSize(SCR_WIDTH, SCR_HEIGHT);
 
 		return true;
 	}
 
 	//		Returns if the window should be closed
 	//------------------------------------------------------------------------------
-	bool ShouldCloseWindow() { return glfwWindowShouldClose(window); }
+	bool ShouldCloseWindow() { return glfwWindowShouldClose(p_window); }
 
 	//		Swaps OpenGL buffers
 	//------------------------------------------------------------------------------
 	void SwapBuffers()
 	{
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(p_window);
 		glfwPollEvents();
 	}
 
@@ -100,12 +101,16 @@ public:
 	//------------------------------------------------------------------------------
 	void DestroyRenderer()
 	{
-		glfwDestroyWindow(window);
-		window = nullptr;
+		glfwDestroyWindow(p_window);
+		p_window = nullptr;
 		glfwTerminate();
 
-		delete MouseListener::getInstance();
-		delete KeyListener::getInstance();
+		delete MouseListener::GetInstance();
+		delete KeyListener::GetInstance();
 	}
 
+	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+	{
+		glViewport(0, 0, width, height);
+	}
 };

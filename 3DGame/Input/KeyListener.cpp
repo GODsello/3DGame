@@ -1,3 +1,3 @@
-#include "KeyListener.h"
+#include "keylistener.h"
 
-KeyListener* KeyListener::instance = nullptr;
+KeyListener* KeyListener::p_instance = nullptr;

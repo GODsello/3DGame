@@ -5,44 +5,44 @@ class KeyListener
 {
 public:
 
-	static KeyListener* getInstance()
+	static KeyListener* GetInstance()
 	{
-		if (instance == nullptr)
+		if (p_instance == nullptr)
 		{
-			instance = new KeyListener();
+			p_instance = new KeyListener();
 		}
 
-		return instance;
+		return p_instance;
 	}
 
-	static void keyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
+	static void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
 	{
 		if (action == GLFW_PRESS)
 		{
-			getInstance()->keyPressed[key] = true;
+			GetInstance()->key_pressed[key] = true;
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			getInstance()->keyPressed[key] = false;
+			GetInstance()->key_pressed[key] = false;
 		}
 	}
 
-	static bool isPressed(int keyCode)
+	static bool IsPressed(int key_code)
 	{
-		return getInstance()->keyPressed[keyCode];
+		return GetInstance()->key_pressed[key_code];
 	}
 
 	KeyListener(const KeyListener& keyL) = delete;
 
 private:
-	static KeyListener* instance;
+	static KeyListener* p_instance;
 
-	bool keyPressed[GLFW_KEY_LAST];
+	bool key_pressed[GLFW_KEY_LAST];
 
 	KeyListener(){
 		for (int i = 0; i < GLFW_KEY_LAST; i++)
 		{
-			keyPressed[i] = false;
+			key_pressed[i] = false;
 		}
 	}
 };

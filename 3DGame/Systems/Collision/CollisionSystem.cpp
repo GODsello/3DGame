@@ -49,25 +49,24 @@ void CollisionSystem::CheckGameObjectGameObjectCollision(GameObject* g1, GameObj
 
 bool CollisionSystem::CheckBoxBoxCollision(ColliderParameters c1, ColliderParameters c2)
 {
-	return	c1.maxX > c2.minX && c1.minX < c2.maxX &&
-		c1.maxY > c2.minY && c1.minY < c2.maxY &&
-		c1.maxZ > c2.minZ && c1.minZ < c2.maxZ;
+	return	c1.max_x > c2.min_x && c1.min_x < c2.max_x &&
+		c1.max_y > c2.min_y && c1.min_y < c2.max_y &&
+		c1.max_z > c2.min_z && c1.min_z < c2.max_z;
 }
 
-//TODO: FIX LATERAL COLLISION
 bool CollisionSystem::IsYGroundedCollision(ColliderParameters object, ColliderParameters ground)
 {
-	return object.maxY > ground.minY && object.minY < ground.maxY;
+	return object.max_y > ground.min_y && object.min_y < ground.max_y;
 }
 
 bool CollisionSystem::IsXBoxesCollision(ColliderParameters object, ColliderParameters coll)
 {
-	return object.maxX > coll.minX && object.minX < coll.maxX;
+	return object.max_x > coll.min_x && object.min_x < coll.max_x;
 }
 
 bool CollisionSystem::IsZBoxesCollision(ColliderParameters object, ColliderParameters coll)
 {
-	return object.maxZ > coll.minZ && object.minZ < coll.maxZ;
+	return object.max_z > coll.min_z && object.min_z < coll.max_z;
 }
 
 unsigned int CollisionSystem::GetCollisionSide(ColliderParameters object, ColliderParameters coll)
@@ -75,42 +74,42 @@ unsigned int CollisionSystem::GetCollisionSide(ColliderParameters object, Collid
 	unsigned int collisionSide = COLLISION_X_GREATER;
 	float currentMinDistance = 10.0f;
 
-	float distance = abs(object.minX - coll.maxX);
+	float distance = abs(object.min_x - coll.max_x);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_X_GREATER;
 		currentMinDistance = distance;
 	}
 
-	distance = abs(object.maxX - coll.minX);
+	distance = abs(object.max_x - coll.min_x);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_X_LOWER;
 		currentMinDistance = distance;
 	}
 
-	distance = abs(object.minY - coll.maxY);
+	distance = abs(object.min_y - coll.max_y);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_Y_GREATER;
 		currentMinDistance = distance;
 	}
 
-	distance = abs(object.maxY - coll.minY);
+	distance = abs(object.max_y - coll.min_y);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_Y_LOWER;
 		currentMinDistance = distance;
 	}
 
-	distance = abs(object.minZ - coll.maxZ);
+	distance = abs(object.min_z - coll.max_z);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_Z_GREATER;
 		currentMinDistance = distance;
 	}
 
-	distance = abs(object.maxZ - coll.minZ);
+	distance = abs(object.max_z - coll.min_z);
 	if (distance < currentMinDistance)
 	{
 		collisionSide = COLLISION_Z_LOWER;

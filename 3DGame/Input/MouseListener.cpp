@@ -1,3 +1,3 @@
-#include "MouseListener.h"
+#include "mouselistener.h"
 
-MouseListener* MouseListener::instance = nullptr;
+MouseListener* MouseListener::p_instance = nullptr;

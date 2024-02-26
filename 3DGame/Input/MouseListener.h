@@ -7,106 +7,106 @@ class MouseListener
 {
 public:
 
-	static MouseListener* getInstance()
+	static MouseListener* GetInstance()
 	{
-		if (instance == nullptr)
+		if (p_instance == nullptr)
 		{
-			instance = new MouseListener();
+			p_instance = new MouseListener();
 		}
 
-		return instance;
+		return p_instance;
 	}
 
-	static void mousePosCallback(GLFWwindow* window, double x, double y)
+	static void MousePosCallback(GLFWwindow* window, double x, double y)
 	{
-		getInstance()->xPos = static_cast<float>(x);
-		getInstance()->yPos = static_cast<float>(y);		
+		GetInstance()->x_pos = static_cast<float>(x);
+		GetInstance()->y_pos = static_cast<float>(y);		
 	}
 
-	static void mouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+	static void MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 	{
-		getInstance()->scrollX = static_cast<float>(xOffset);
-		getInstance()->scrollY = static_cast<float>(yOffset);
+		GetInstance()->scroll_x = static_cast<float>(xOffset);
+		GetInstance()->scroll_y = static_cast<float>(yOffset);
 	}
 
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		if (action == GLFW_PRESS && button < sizeof(getInstance()->mouseButtonPressed) / sizeof(bool))
+		if (action == GLFW_PRESS && button < sizeof(GetInstance()->mouse_button_pressed) / sizeof(bool))
 		{
-			getInstance()->mouseButtonPressed[button] = true;
+			GetInstance()->mouse_button_pressed[button] = true;
 		}
-		else if (action == GLFW_RELEASE && button < sizeof(getInstance()->mouseButtonPressed) / sizeof(bool))
+		else if (action == GLFW_RELEASE && button < sizeof(GetInstance()->mouse_button_pressed) / sizeof(bool))
 		{
-			getInstance()->mouseButtonPressed[button] = false;
+			GetInstance()->mouse_button_pressed[button] = false;
 		}
 	}
 
 	static void ResetLastPosition()
 	{
-		getInstance()->lastX = getInstance()->xPos;
-		getInstance()->lastY = getInstance()->yPos;
+		GetInstance()->last_x = GetInstance()->x_pos;
+		GetInstance()->last_y = GetInstance()->y_pos;
 	}
 
-	static void endFrame()
+	static void EndFrame()
 	{
-		getInstance()->scrollX = 0;
-		getInstance()->scrollY = 0;
-		getInstance()->lastX = getInstance()->xPos;
-		getInstance()->lastY = getInstance()->yPos;
+		GetInstance()->scroll_x = 0;
+		GetInstance()->scroll_y = 0;
+		GetInstance()->last_x = GetInstance()->x_pos;
+		GetInstance()->last_y = GetInstance()->y_pos;
 	}
 
-	static float getX() { return getInstance()->xPos; }
-	static float getY() { return getInstance()->yPos; }
+	static float GetX() { return GetInstance()->x_pos; }
+	static float GetY() { return GetInstance()->y_pos; }
 
-	static float getLastX() { return getInstance()->lastX; }
-	static float getLastY() { return getInstance()->lastY; }
+	static float GetLastX() { return GetInstance()->last_x; }
+	static float GetLastY() { return GetInstance()->last_y; }
 
-	static float getScrollX() { return getInstance()->scrollX; }
+	static float GetScrollX() { return GetInstance()->scroll_x; }
 
-	static float getScrollY() { return getInstance()->scrollY; }
+	static float GetScrollY() { return GetInstance()->scroll_y; }
 
-	static float getXOffset() { return getInstance()->xPos - getInstance()->lastX; }
+	static float GetXOffset() { return GetInstance()->x_pos - GetInstance()->last_x; }
 
-	static float getYOffset() { return getInstance()->lastY - getInstance()->yPos; }
+	static float GetYOffset() { return GetInstance()->last_y - GetInstance()->y_pos; }
 
-	static bool getMouseButtonDown(int button)
+	static bool GetMouseButtonDown(int button)
 	{
-		if (button < sizeof(getInstance()->mouseButtonPressed) / sizeof(bool))
+		if (button < sizeof(GetInstance()->mouse_button_pressed) / sizeof(bool))
 		{
-			return getInstance()->mouseButtonPressed[button];
+			return GetInstance()->mouse_button_pressed[button];
 		}
 		
 		return false;
 	}
 
-	static void setScreenSize(unsigned int screenWidth, unsigned int screenHeight)
+	static void SetScreenSize(unsigned int screenWidth, unsigned int screenHeight)
 	{
-		getInstance()->xPos = screenWidth / 2.0f;
-		getInstance()->yPos = screenHeight / 2.0f;
-		getInstance()->lastX = screenWidth / 2.0f;
-		getInstance()->lastY = screenHeight / 2.0f;
+		GetInstance()->x_pos = screenWidth / 2.0f;
+		GetInstance()->y_pos = screenHeight / 2.0f;
+		GetInstance()->last_x = screenWidth / 2.0f;
+		GetInstance()->last_y = screenHeight / 2.0f;
 	}
 
 private:
-	static MouseListener* instance;
-	float scrollX, scrollY;
-	float xPos, yPos;
-	float lastX, lastY;
+	static MouseListener* p_instance;
+	float scroll_x, scroll_y;
+	float x_pos, y_pos;
+	float last_x, last_y;
 
-	bool mouseButtonPressed[3];
+	bool mouse_button_pressed[3];
 
 	MouseListener()
 	{
-		scrollX = 0;
-		scrollY = 0;
-		xPos = 0;
-		yPos = 0;
-		lastX = 0;
-		lastY = 0;
+		scroll_x = 0;
+		scroll_y = 0;
+		x_pos = 0;
+		y_pos = 0;
+		last_x = 0;
+		last_y = 0;
 
-		for (int i = 0; i < sizeof(getInstance()->mouseButtonPressed) / sizeof(bool); i++)
+		for (int i = 0; i < sizeof(GetInstance()->mouse_button_pressed) / sizeof(bool); i++)
 		{
-			mouseButtonPressed[i] = false;
+			mouse_button_pressed[i] = false;
 		}
 	}
 };

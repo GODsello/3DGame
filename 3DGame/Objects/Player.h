@@ -1,19 +1,24 @@
 #pragma once
 
-#include "../ECS/ECS.h"
-#include "../Systems/Systems.h"
-#include "../Camera/camera.h"
+#include "../ecs/ecs.h"
+#include "../systems/systems.h"
+#include "../camera/camera.h"
+#include "stats.h"
 
 class Player : public GameObject {
 public:
-	Player(std::string name, Camera* cam);
+	Player(std::string name, Camera* p_cam, glm::vec3 position);
 	void Start();
 	void Update(float dt);
 
-	void OnCollision(GameObject* collision);
+	void OnCollision(GameObject* p_collision);
+
+	Stats* GetStats() { return &player_stats; }
 
 private:
-	Camera* camera;
-	Physics* physics;
-	Collider* collider;
+	Camera* p_camera;
+	Physics* p_physics;
+	Collider* p_collider;
+
+	Stats player_stats;
 };

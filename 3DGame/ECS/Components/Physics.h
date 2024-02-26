@@ -4,8 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../ECS.h"
-#include "Collider.h"
+#include "../ecs.h"
+#include "collider.h"
 
 class Physics : public Component
 {
@@ -14,36 +14,34 @@ public:
 		: Component("physics")
 	{
 		direction = glm::vec3(0.0f);
-		velocityVector = glm::vec3(0.0f);
-		velocity = 0.0f;
-		fallSpeed = 0.0f;
+		velocity_vector = glm::vec3(0.0f);
+		fall_speed = 0.0f;
 
 		running = false;
 		crouched = false;
 		grounded = false;
 
-		gameObjectCollider = nullptr;
+		p_game_object_collider = nullptr;
 	}
 
 	void Start()
 	{
-		gameObjectCollider = gameObject->GetComponent<Collider>("collider");
+		p_game_object_collider = p_game_object->GetComponent<Collider>("collider");
 	};
 
 	void Update(float dt)
 	{
-		glm::vec3 walkVel = WalkAndRunVelocity(dt);
-		velocityVector.x = walkVel.x;
-		velocityVector.z = walkVel.z;
+		
+		WalkAndRunVelocity(dt);
 
-		gameObject->GetTransform()->position += velocityVector;
+		p_game_object->GetTransform()->position += velocity_vector;
 		//GRAVITY
-		fallSpeed = approach(fallSpeed, MAX_FALL_SPEED, dt * GRAVITY);
-		gameObject->GetTransform()->position.y -= fallSpeed * dt;
+		fall_speed = approach(fall_speed, MAX_FALL_SPEED, dt * GRAVITY);
+		p_game_object->GetTransform()->position.y -= fall_speed * dt;
 
-		if (gameObjectCollider)
+		if (p_game_object_collider)
 		{
-			gameObjectCollider->UpdateColliderPosition(gameObject->GetTransform()->position);
+			p_game_object_collider->UpdateColliderPosition(p_game_object->GetTransform()->position);
 		}
 	};
 
@@ -62,12 +60,12 @@ public:
 		this->crouched = c;
 	}
 
-	void SetGrounded(bool g, float yPos)
+	void SetGrounded(bool g, float y_pos)
 	{
 		if (g) {
 			grounded = true;
-			fallSpeed = 0.0f;
-			gameObject->GetTransform()->position.y = yPos;
+			fall_speed = 0.0f;
+			p_game_object->GetTransform()->position.y = y_pos;
 		}
 		else
 		{
@@ -79,57 +77,87 @@ public:
 	{
 		if (grounded)
 		{
-			fallSpeed = -JUMP_SPEED;
+			fall_speed = -JUMP_SPEED;
 			grounded = false;
 		}
 	}
 
+	//TODO: MAKE THIS WORK
+	/*void WallJump(float dt)
+	{
+		if (grounded) return;
+
+		if (gameObjectCollider->GetCollisonAxis()[COLLISION_X_GREATER])
+		{
+			velocityVector.x = 7.5;
+			fallSpeed = -JUMP_SPEED;
+			grounded = false;
+		}
+		if (gameObjectCollider->GetCollisonAxis()[COLLISION_X_LOWER])
+		{
+			velocityVector.x = -7.5;
+			fallSpeed = -JUMP_SPEED;
+			grounded = false;
+		}
+		if (gameObjectCollider->GetCollisonAxis()[COLLISION_Z_GREATER])
+		{
+			velocityVector.z = 7.5;
+			fallSpeed = -JUMP_SPEED;
+			grounded = false;
+		}
+		if (gameObjectCollider->GetCollisonAxis()[COLLISION_Z_LOWER])
+		{
+			velocityVector.z = -7.5;
+			fallSpeed = -JUMP_SPEED;
+			grounded = false;
+		}
+	}*/
+
 private:
 	const float MAX_VELOCITY = 10.0f;
-	const float MAX_RUNNING_VELOCITY = 15.0f;
+	const float MAX_RUNNING_VELOCITY = 20.0f;
 	const float MAX_CROUCHED_VELOCITY = 5.0f;
-	const float ACCELERATION_SPEED = 10.0f;
-	const float DECCELERATION_SPEED = 75.0f;
+	const float ACCELERATION_SPEED = 1000.0f;
+	const float DECCELERATION_SPEED = 5000.0f;
 
 	const float GRAVITY = 20.0f;
 	const float MAX_FALL_SPEED = 10.0f; 
 
 	const float JUMP_SPEED = 7.5f;
 
-	glm::vec3 velocityVector;
+	glm::vec3 velocity_vector;
 	glm::vec3 direction;
-	float velocity;
-	float fallSpeed;
+	float fall_speed;
 
 	bool running;
 	bool crouched;
 	bool grounded;
 
-	Collider* gameObjectCollider;
+	Collider* p_game_object_collider;
 
-	glm::vec3 WalkAndRunVelocity(float dt)
+	void WalkAndRunVelocity(float dt)
 	{
 		//printf("%.6f\n", velocity);
 		//printf("%.6f %.6f %.6f\n", gameObject->GetTransform()->position.x, gameObject->GetTransform()->position.y, gameObject->GetTransform()->position.z);
 		if (glm::length(direction) > 0.0f)
 		{
-			float targetVelocity = MAX_VELOCITY;
+			glm::vec3 targetVelocity = direction * MAX_VELOCITY;
 			if (crouched)
 			{
-				targetVelocity = MAX_CROUCHED_VELOCITY;
+				targetVelocity = direction * MAX_CROUCHED_VELOCITY;
 			} 
 			else if (running)
 			{
-				targetVelocity = MAX_RUNNING_VELOCITY;
+				targetVelocity = direction * MAX_RUNNING_VELOCITY;
 			}
 
-			velocity = approach(velocity, targetVelocity, ACCELERATION_SPEED * dt * 1000);
+			velocity_vector = approachVec3(velocity_vector, targetVelocity, ACCELERATION_SPEED * dt);
 		}
 		else
 		{
-			velocity = approach(velocity, 0.0f, DECCELERATION_SPEED * dt * 1000);
+			velocity_vector = approachVec3(velocity_vector, glm::vec3(0.0f), DECCELERATION_SPEED * dt);
 		}
 
-		return direction * velocity * dt;
+		velocity_vector *= dt;
 	}
 };

@@ -24,22 +24,34 @@
     <ClCompile Include="ExternalLibs\include\glm\detail\glm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Input\KeyListener.cpp">
+    <ClCompile Include="input\keylistener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Input\MouseListener.cpp">
+    <ClCompile Include="input\mouselistener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\DefaultScene.h">
+    <ClCompile Include="scene\defaultscene.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Player.cpp">
+    <ClCompile Include="objects\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\Components\Physics.h">
+    <ClCompile Include="ecs\components\physics.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\Collision\CollisionSystem.cpp">
+    <ClCompile Include="systems\collision\collisionsystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh\types\horizontalplain.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh\types\horizontalplain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh\types\verticalplain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\scenemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -911,43 +923,76 @@
     <ClInclude Include="ExternalLibs\include\KHR\khrplatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input\KeyListener.h">
+    <ClInclude Include="input\keylistener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input\MouseListener.h">
+    <ClInclude Include="input\mouselistener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\camera.h">
+    <ClInclude Include="camera\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\ECS.h">
+    <ClInclude Include="ecs\ecs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh\mesh.h">
+    <ClInclude Include="mesh\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
+    <ClInclude Include="scene\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Controller.h">
+    <ClInclude Include="ecs\components\controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Player.h">
+    <ClInclude Include="objects\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Collider.h">
+    <ClInclude Include="ecs\components\collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Collision\CollisionSystem.h">
+    <ClInclude Include="systems\collision\collisionsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Systems.h">
+    <ClInclude Include="systems\systems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components\Components.h">
+    <ClInclude Include="ecs\components\components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\uicomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\components\crosshair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\room\ground\ground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh\types\verticalplain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\room\wall\wall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\scenemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\room\room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\item\item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects\stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

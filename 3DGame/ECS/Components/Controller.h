@@ -2,40 +2,38 @@
 
 #include <string>
 
-#include "../ECS.h"
-#include "Physics.h"
-#include "../../Camera/camera.h"
-#include "../../Input/KeyListener.h"
-#include "../../Input/MouseListener.h"
+#include "../ecs.h"
+#include "physics.h"
+#include "../../camera/camera.h"
+#include "../../input/keylistener.h"
+#include "../../input/mouselistener.h"
 
 class Controller : public Component
 {
 public:
 
-	Controller(Camera* cam)
+	Controller(Camera* p_cam)
 		: Component("controller")
 	{
-		camera = cam;
-		physics = nullptr;
-		collider = nullptr;
+		p_camera = p_cam;
+		p_physics = nullptr;
 
-		this->cameraHeight = CAMERA_HEIGHT;
+		this->camera_height = CAMERA_HEIGHT;
 	}
 
 	void Start() 
 	{
-		physics = gameObject->GetComponent<Physics>("physics");
-		collider = gameObject->GetComponent<Collider>("collider");
+		p_physics = p_game_object->GetComponent<Physics>("physics");
 	};
 
 	void Update(float dt)
 	{
-		this->camera->SetPosition(this->gameObject->GetTransform()->position
-									+ glm::vec3(0.0f, cameraHeight, 0.0f));
-		camera->ProcessMouseMovement(MouseListener::getXOffset(), MouseListener::getYOffset());
+		this->p_camera->SetPosition(this->p_game_object->GetTransform()->position
+									+ glm::vec3(0.0f, camera_height, 0.0f));
+		p_camera->ProcessMouseMovement(MouseListener::GetXOffset(), MouseListener::GetYOffset());
 		MouseListener::ResetLastPosition();
 
-		if (KeyListener::isPressed(GLFW_KEY_LEFT_CONTROL))
+		if (KeyListener::IsPressed(GLFW_KEY_LEFT_CONTROL))
 		{
 			Crouch(dt);
 		}
@@ -47,27 +45,39 @@ public:
 		Jump(dt);
 
 		WalkAndRun(dt);
+
+		//WallJump(dt);
+
 	};
+
+	//TODO: MAKE THIS WORK
+	/*void WallJump(float dt)
+	{
+		if (KeyListener::isPressed(GLFW_KEY_SPACE))
+		{
+			physics->WallJump(dt);
+		}
+	}*/
 
 	void WalkAndRun(float dt)
 	{
-		glm::vec3 front = glm::vec3(camera->Front.x, 0.0f, camera->Front.z);
-		glm::vec3 right = glm::vec3(camera->Right.x, 0.0f, camera->Right.z);
+		glm::vec3 front = glm::vec3(p_camera->front.x, 0.0f, p_camera->front.z);
+		glm::vec3 right = glm::vec3(p_camera->right.x, 0.0f, p_camera->right.z);
 		glm::vec3 direction = glm::vec3(0.0f);
 
-		if (KeyListener::isPressed(GLFW_KEY_W))
+		if (KeyListener::IsPressed(GLFW_KEY_W))
 		{
 			direction += front;
 		}
-		if (KeyListener::isPressed(GLFW_KEY_S))
+		if (KeyListener::IsPressed(GLFW_KEY_S))
 		{
 			direction -= front;
 		}
-		if (KeyListener::isPressed(GLFW_KEY_D))
+		if (KeyListener::IsPressed(GLFW_KEY_D))
 		{
 			direction += right;
 		}
-		if (KeyListener::isPressed(GLFW_KEY_A))
+		if (KeyListener::IsPressed(GLFW_KEY_A))
 		{
 			direction -= right;
 		}
@@ -77,45 +87,45 @@ public:
 			direction = glm::normalize(direction);
 		}
 
-		if (KeyListener::isPressed(GLFW_KEY_LEFT_SHIFT))
+		if (KeyListener::IsPressed(GLFW_KEY_LEFT_SHIFT))
 		{
-			physics->SetRunning(true);
+			p_physics->SetRunning(true);
 		}
 		else
 		{
-			physics->SetRunning(false);
+			p_physics->SetRunning(false);
 		}
 
-		physics->SetDirection(direction.x, direction.y, direction.z);
+		p_physics->SetDirection(direction.x, direction.y, direction.z);
 	}
 
 	void Jump(float dt)
 	{
-		if (KeyListener::isPressed(GLFW_KEY_SPACE))
+		if (KeyListener::IsPressed(GLFW_KEY_SPACE))
 		{
-			physics->Jump(dt);
+			p_physics->Jump(dt);
 		}
 	}
 
 	void Crouch(float dt)
 	{
-		cameraHeight = approach(cameraHeight, CAMERA_CROUCHED_HEIGHT, crouchVelocity * dt);
-		physics->SetCrouched(true);
+		camera_height = approach(camera_height, CAMERA_CROUCHED_HEIGHT, crouch_velocity * dt);
+		p_physics->SetCrouched(true);
 	}
 
 	void StandUp(float dt)
 	{
-		cameraHeight = approach(cameraHeight, CAMERA_HEIGHT, crouchVelocity * dt);
-		physics->SetCrouched(false);
+		camera_height = approach(camera_height, CAMERA_HEIGHT, crouch_velocity * dt);
+		p_physics->SetCrouched(false);
 	}
 
 private:
-	Camera* camera;
-	Physics* physics;
-	Collider* collider;
+	Camera* p_camera;
+	Physics* p_physics;
 
-	const float CAMERA_HEIGHT = 1.5f;
-	const float CAMERA_CROUCHED_HEIGHT = 0.5f;
-	float cameraHeight;
-	float crouchVelocity = 3.5f;
+	const float CAMERA_HEIGHT = 2.0f;
+	const float CAMERA_CROUCHED_HEIGHT = 0.75f;
+
+	float camera_height;
+	float crouch_velocity = 3.5f;
 };

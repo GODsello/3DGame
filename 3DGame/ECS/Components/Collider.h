@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../ECS.h"
+#include "../ecs.h"
 
 enum ColliderTypes
 {
@@ -26,9 +26,11 @@ enum NearestCollision
 
 struct ColliderParameters
 {
-	float minX, maxX;
-	float minY, maxY;
-	float minZ, maxZ;
+	glm::vec3 position;
+
+	float min_x, max_x;
+	float min_y, max_y;
+	float min_z, max_z;
 };
 
 class Collider : public Component
@@ -39,59 +41,61 @@ public:
 	{
 		this->type = type;
 		this->parameters = {};
-		this->position = glm::vec3(0.0f);
+		this->parameters.position = glm::vec3(0.0f);
 		ResetCollisionAxis();
 	}
 
 	Collider(unsigned int type, glm::vec3 position)
 		: Collider(type)
 	{
-		this->position = position;
+		this->parameters.position = position;
 	}
 
-	void SetBoxParameters(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
+	void SetBoxSizeParameters(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z)
 	{
-		parameters.minX = minX;
-		parameters.maxX = maxX;
-		parameters.minY = minY;
-		parameters.maxY = maxY;
-		parameters.minZ = minZ;
-		parameters.maxZ = maxZ;
+		parameters.min_x = parameters.position.x - min_x;
+		parameters.max_x = parameters.position.x + max_x;
+		parameters.min_y = parameters.position.y - min_y;
+		parameters.max_y = parameters.position.y + max_y;
+		parameters.min_z = parameters.position.z - min_z;
+		parameters.max_z = parameters.position.z + max_z;
 	}
 
-	void UpdateColliderPosition(glm::vec3 newPos)
+	void UpdateColliderPosition(glm::vec3 new_pos)
 	{
-		glm::vec3 offsets = newPos - position;
+		glm::vec3 offsets = new_pos - parameters.position;
 
 		if (type == COLLIDER_TYPE_BOX)
 		{
-			parameters.minX += offsets.x;
-			parameters.maxX += offsets.x;
-			parameters.minY += offsets.y;
-			parameters.maxY += offsets.y;
-			parameters.minZ += offsets.z;
-			parameters.maxZ += offsets.z;
+			parameters.min_x += offsets.x;
+			parameters.max_x += offsets.x;
+			parameters.min_y += offsets.y;
+			parameters.max_y += offsets.y;
+			parameters.min_z += offsets.z;
+			parameters.max_z += offsets.z;
 		}
 
-		position = newPos;
+		parameters.position = new_pos;
 	}
 
 	void ResetCollisionAxis()
 	{
 		for (int i = 0; i < COLLISION_AXIS_COUNT; i++)
 		{
-			collisionAxis[i] = false;
+			collision_axis[i] = false;
 		}
 	}
 
 	void SetCollisionAxis(unsigned int axis, bool value)
 	{
-		collisionAxis[axis] = value;
+		collision_axis[axis] = value;
 	}
 
 	unsigned int GetType() { return type; }
 	
 	ColliderParameters& GetParameters() { return parameters; }
+
+	bool* GetCollisonAxis() { return collision_axis; }
 
 	void Start(){}
 	void Update(float dt)
@@ -102,7 +106,5 @@ public:
 private:
 	unsigned int type;
 	ColliderParameters parameters;
-	bool collisionAxis[COLLISION_AXIS_COUNT];
-
-	glm::vec3 position;
+	bool collision_axis[COLLISION_AXIS_COUNT];
 };

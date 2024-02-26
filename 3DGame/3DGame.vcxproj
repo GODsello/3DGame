@@ -147,22 +147,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ECS\Components\Physics.h" />
+    <ClCompile Include="ecs\components\physics.h" />
     <ClCompile Include="ExternalLibs\include\glm\detail\glm.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Input\KeyListener.cpp" />
-    <ClCompile Include="Input\MouseListener.cpp" />
+    <ClCompile Include="input\keylistener.cpp" />
+    <ClCompile Include="input\mouselistener.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Objects\Player.cpp" />
-    <ClCompile Include="Scene\DefaultScene.h" />
-    <ClCompile Include="Systems\Collision\CollisionSystem.cpp" />
+    <ClCompile Include="mesh\types\horizontalplain.cpp" />
+    <ClCompile Include="mesh\types\horizontalplain.h" />
+    <ClCompile Include="mesh\types\verticalplain.cpp" />
+    <ClCompile Include="objects\player.cpp" />
+    <ClCompile Include="scene\defaultscene.h" />
+    <ClCompile Include="scene\scenemanager.cpp" />
+    <ClCompile Include="systems\collision\collisionsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera\camera.h" />
-    <ClInclude Include="ECS\Components\Collider.h" />
-    <ClInclude Include="ECS\Components\Components.h" />
-    <ClInclude Include="ECS\Components\Controller.h" />
-    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="camera\camera.h" />
+    <ClInclude Include="ecs\components\collider.h" />
+    <ClInclude Include="ecs\components\components.h" />
+    <ClInclude Include="ecs\components\controller.h" />
+    <ClInclude Include="ecs\ecs.h" />
     <ClInclude Include="ExternalLibs\include\glad\glad.h" />
     <ClInclude Include="ExternalLibs\include\GLFW\glfw3.h" />
     <ClInclude Include="ExternalLibs\include\GLFW\glfw3native.h" />
@@ -449,16 +453,27 @@
     <ClInclude Include="ExternalLibs\include\glm\vec4.hpp" />
     <ClInclude Include="ExternalLibs\include\glm\vector_relational.hpp" />
     <ClInclude Include="ExternalLibs\include\KHR\khrplatform.h" />
-    <ClInclude Include="Input\KeyListener.h" />
-    <ClInclude Include="Input\MouseListener.h" />
-    <ClInclude Include="Mesh\mesh.h" />
-    <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="input\keylistener.h" />
+    <ClInclude Include="input\mouselistener.h" />
+    <ClInclude Include="mesh\mesh.h" />
+    <ClInclude Include="mesh\types\verticalplain.h" />
+    <ClInclude Include="objects\item\item.h" />
+    <ClInclude Include="objects\light.h" />
+    <ClInclude Include="objects\player.h" />
+    <ClInclude Include="objects\room\ground\ground.h" />
+    <ClInclude Include="objects\room\room.h" />
+    <ClInclude Include="objects\room\wall\wall.h" />
+    <ClInclude Include="objects\stats.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="scene\scene.h" />
+    <ClInclude Include="scene\scenemanager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Systems\Collision\CollisionSystem.h" />
-    <ClInclude Include="Systems\Systems.h" />
+    <ClInclude Include="systems\collision\collisionsystem.h" />
+    <ClInclude Include="systems\systems.h" />
+    <ClInclude Include="ui\components\crosshair.h" />
+    <ClInclude Include="ui\components\uicomponent.h" />
+    <ClInclude Include="ui\ui.h" />
     <ClInclude Include="utils\utils.h" />
   </ItemGroup>
   <ItemGroup>

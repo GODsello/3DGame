@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "../../ECS/ECS.h"
-#include "../../ECS/Components/Components.h"
+#include "../../ecs/ecs.h"
+#include "../../ecs/components/components.h"
 
 class CollisionSystem
 {

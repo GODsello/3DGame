@@ -2,12 +2,13 @@
 #include <GLFW/glfw3.h>
 
 #include "renderer.h"
-#include "Scene/DefaultScene.h"
+#include "scene/scenemanager.h"
+#include "scene/defaultscene.h"
 
-#include "Systems/Systems.h"
+#include "systems/systems.h"
 
 constexpr int UPDATES_PER_SECOND = 144;
-constexpr double UPDATE_DELAY = 1.0 / UPDATES_PER_SECOND;
+constexpr float UPDATE_DELAY = 1.0 / UPDATES_PER_SECOND;
 
 static Renderer* renderer;
 static Scene* currentScene;
@@ -28,6 +29,8 @@ int main()
 
 	currentScene->LoadScene();
 
+	SceneManager::SetActiveScene(currentScene);
+
 	currentScene->StartScene();
 
 	while (!renderer->ShouldCloseWindow())
@@ -44,6 +47,8 @@ int main()
 
 
 			currentScene->UpdateScene(deltaTime);
+
+			currentScene->ClearGameObjects();
 
 			renderer->ClearRender(0.0f, 0.0f, 0.0f);
 
